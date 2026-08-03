@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Generate a directory-listing-style index.html of all solutions."""
+
 import html
 import re
 from pathlib import Path
@@ -37,7 +38,9 @@ def solutions_in(work: Path):
 
 
 def works():
-    numbered = [d for d in ROOT.iterdir() if d.is_dir() and re.fullmatch(r"\d+", d.name)]
+    numbered = [
+        d for d in ROOT.iterdir() if d.is_dir() and re.fullmatch(r"\d+", d.name)
+    ]
     for d in sorted(numbered, key=lambda d: int(d.name)):
         yield f"#{int(d.name)}", d / "instructions.md", d
     for d in sorted((ROOT / "untitled").iterdir()):
@@ -81,7 +84,7 @@ a {{ color: #00e; }}
 <h1>Index of /solving-sol</h1>
 <p>Implementations of <a href="https://en.wikipedia.org/wiki/Sol_LeWitt">Sol LeWitt</a>'s
 wall drawing instructions. Source on
-<a href="https://github.com/llimllib/solving-sol">GitHub</a>.</p>
+<a href="https://github.com/llimllib/solving-sol">GitHub</a>. A fork of <a href="https://github.com/wholepixel/solving-sol">wholepixel/solving-sol</a>, by Brad Bouse</p>
 <hr>
 <table>
 <tr><th>Drawing</th><th>By</th><th>Instructions</th></tr>
