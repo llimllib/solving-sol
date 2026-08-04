@@ -37,12 +37,17 @@ def solutions_in(work: Path):
     return out
 
 
+WORK_DIR = re.compile(r"(\d+)([A-Za-z]*)")
+
+
 def works():
-    numbered = [
-        d for d in ROOT.iterdir() if d.is_dir() and re.fullmatch(r"\d+", d.name)
-    ]
-    for d in sorted(numbered, key=lambda d: int(d.name)):
-        yield f"#{int(d.name)}", d / "instructions.md", d
+    numbered = []
+    for d in ROOT.iterdir():
+        m = d.is_dir() and WORK_DIR.fullmatch(d.name)
+        if m:
+            numbered.append((int(m[1]), m[2], d))
+    for number, suffix, d in sorted(numbered):
+        yield f"#{number}{suffix}", d / "instructions.md", d
     for d in sorted((ROOT / "untitled").iterdir()):
         if d.is_dir():
             yield "untitled", d / "README.md", d
